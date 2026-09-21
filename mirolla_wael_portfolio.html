@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirolla Wael | AI & Backend Engineer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        warm: '#fcfbf9',
+                        navy: '#0a192f',
+                        accent: '#5c7b99',
+                        borderLight: '#e2e0db',
+                        muted: '#6b7280'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        hand: ['Caveat', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #fcfbf9;
+            color: #0a192f;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Timeline Styles */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 15px; /* Mobile position */
+            width: 1px;
+            background-color: #e2e0db;
+        }
+        @media (min-width: 768px) {
+            .timeline-container::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+        .timeline-node {
+            position: relative;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 15px;
+            top: 6px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background-color: #5c7b99;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+        }
+        @media (min-width: 768px) {
+            .timeline-dot {
+                left: 50%;
+            }
+        }
+        
+        /* Editorial Project Cards */
+        .project-card:hover .project-img-placeholder {
+            transform: scale(1.03);
+        }
+        .project-img-placeholder {
+            transition: transform 0.5s ease;
+        }
+
+        /* Link Underline Effect */
+        .link-underline {
+            position: relative;
+            text-decoration: none;
+        }
+        .link-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: currentColor;
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .link-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 300px;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-navy">
+
+    <nav id="navbar" class="fixed w-full top-0 z-50 bg-warm/90 backdrop-blur-sm border-b border-transparent transition-all duration-300 py-4">
+        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="font-serif font-semibold tracking-wide text-xl text-navy">MIROLLA</a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="#about" class="text-muted hover:text-navy transition-colors link-underline">About</a>
+                <a href="#work" class="text-muted hover:text-navy transition-colors link-underline">Work</a>
+                <a href="#journey" class="text-muted hover:text-navy transition-colors link-underline">Journey</a>
+                <a href="#beyond" class="text-muted hover:text-navy transition-colors link-underline">Beyond Code</a>
+                <a href="#contact" class="text-muted hover:text-navy transition-colors link-underline">Contact</a>
+                <a href="#cv-download" class="px-5 py-2 border border-borderLight text-navy rounded-full hover:bg-navy hover:text-warm transition-colors">Download CV</a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button id="menu-btn" class="md:hidden text-navy focus:outline-none" aria-label="Toggle Menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-warm border-b border-borderLight">
+            <div class="px-6 py-4 flex flex-col space-y-4 text-center text-sm font-medium">
+                <a href="#about" class="mobile-link text-muted hover:text-navy transition-colors">About</a>
+                <a href="#work" class="mobile-link text-muted hover:text-navy transition-colors">Work</a>
+                <a href="#journey" class="mobile-link text-muted hover:text-navy transition-colors">Journey</a>
+                <a href="#beyond" class="mobile-link text-muted hover:text-navy transition-colors">Beyond Code</a>
+                <a href="#contact" class="mobile-link text-muted hover:text-navy transition-colors">Contact</a>
+                <a href="#cv-download" class="mobile-link inline-block px-5 py-2 border border-borderLight text-navy rounded-full hover:bg-navy hover:text-warm transition-colors w-max mx-auto">Download CV</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero" class="min-h-[100vh] flex items-center pt-24 pb-16 px-6 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto w-full grid md:grid-cols-12 gap-12 items-center">
+            <div class="md:col-span-7 z-10 reveal">
+                <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl leading-[1.1] mb-6 text-navy">
+                    Learning.<br>
+                    Building.<br>
+                    <span class="italic text-accent">Becoming.</span>
+                </h1>
+                <p class="font-sans text-lg md:text-xl text-muted font-medium mb-6 tracking-wide">
+                    AI & Backend Engineer • Lifelong Learner
+                </p>
+                <p class="font-sans text-base md:text-lg leading-relaxed text-navy mb-10 max-w-lg">
+                    I'm Mirolla, a Computer Engineering student exploring AI and backend engineering, driven by curiosity, problem solving, and the desire to build things that actually help people.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#work" class="px-8 py-3 bg-navy text-warm rounded-full font-medium hover:bg-accent transition-colors duration-300">Explore my work</a>
+                    <a href="#about" class="px-8 py-3 border border-borderLight text-navy rounded-full font-medium hover:bg-borderLight/30 transition-colors duration-300">Get to know me</a>
+                </div>
+            </div>
+            
+            <div class="md:col-span-5 relative reveal" style="transition-delay: 0.2s;">
+                <!-- Image Placeholder -->
+                <div class="aspect-[3/4] w-full max-w-[340px] mx-auto md:ml-auto bg-[#e2e0db]/50 rounded-2xl flex items-center justify-center relative shadow-sm border border-borderLight">
+                    <span class="text-muted/50 font-medium tracking-widest text-sm">[ IMAGE PLACEHOLDER ]</span>
+                    
+                    <!-- Handwritten Annotation -->
+                    <div class="absolute -right-6 -bottom-8 md:-right-12 md:bottom-10 transform rotate-[-10deg] font-hand text-2xl text-accent">
+                        hi, that's me :)
+                        <svg class="w-8 h-8 absolute -left-6 -top-4 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M5 12l6-6m-6 6l6 6"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 px-6 bg-white border-y border-borderLight">
+        <div class="max-w-4xl mx-auto reveal">
+            <h2 class="font-serif text-3xl md:text-4xl mb-12 text-navy text-center md:text-left">More than the code.</h2>
+            
+            <div class="prose prose-lg text-navy font-sans leading-relaxed space-y-6 md:text-lg">
+                <p>
+                    I like solving problems. Sometimes that means writing software, training a model, designing a backend, or figuring out why something refuses to work at 2 AM.
+                </p>
+                <p>
+                    But engineering is only one part of who I am.
+                </p>
+                <p>
+                    I enjoy teaching, working with young people through Scouts, and creating experiences that help people learn and grow. I'm ambitious, curious, and probably always going to have something new I want to learn.
+                </p>
+                <p class="font-medium text-xl font-serif italic mt-8 text-accent">
+                    "For me, the goal isn't just to become a better engineer. It's to become a better version of myself along the way."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="work" class="py-32 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-16 reveal">
+                <h2 class="font-serif text-4xl md:text-5xl mb-4 text-navy">Things I've built</h2>
+                <p class="font-sans text-muted text-lg max-w-2xl">Some worked. Some taught me more than I expected. All of them taught me something.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Project 1 -->
+                <div class="project-card group reveal bg-white rounded-2xl p-6 border border-borderLight shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-full h-48 bg-[#e2e0db]/40 rounded-xl mb-6 overflow-hidden flex items-center justify-center relative">
+                        <span class="text-muted/50 font-medium text-sm tracking-wide">[ PET-FACE-CNN IMG ]</span>
+                        <!-- Handwritten Annotation -->
+                        <div class="absolute top-4 right-4 transform rotate-12 font-hand text-xl text-accent hidden group-hover:block">
+                            this one took a while...
+                        </div>
+                    </div>
+                    <h3 class="font-serif text-2xl font-medium mb-3 text-navy">Pet-Face-CNN</h3>
+                    <p class="text-navy/80 text-sm md:text-base leading-relaxed mb-6 h-24">
+                        Constructed custom CNN architectures from scratch in PyTorch and benchmarked them against transfer learning models for pet facial expression classification.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">Python</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">PyTorch</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">CNNs</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">Transfer Learning</span>
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="https://github.com/mirollawa2l" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-accent hover:text-navy transition-colors link-underline">GitHub Repository</a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card group reveal bg-white rounded-2xl p-6 border border-borderLight shadow-sm hover:shadow-md transition-shadow" style="transition-delay: 0.1s;">
+                    <div class="w-full h-48 bg-[#e2e0db]/40 rounded-xl mb-6 overflow-hidden flex items-center justify-center">
+                        <span class="text-muted/50 font-medium text-sm tracking-wide">[ SMART HOME IMG ]</span>
+                    </div>
+                    <h3 class="font-serif text-2xl font-medium mb-3 text-navy">Smart-Home Access System</h3>
+                    <p class="text-navy/80 text-sm md:text-base leading-relaxed mb-6 h-24">
+                        Built a smart home access system featuring custom PCB design and facial recognition during a traineeship, bridging software and hardware.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">Python</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">Computer Vision</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">PCB Design</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">Hardware</span>
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="https://github.com/mirollawa2l" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-accent hover:text-navy transition-colors link-underline">GitHub Repository</a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card group reveal bg-white rounded-2xl p-6 border border-borderLight shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-full h-48 bg-[#e2e0db]/40 rounded-xl mb-6 overflow-hidden flex items-center justify-center">
+                        <span class="text-muted/50 font-medium text-sm tracking-wide">[ NMT MODEL IMG ]</span>
+                    </div>
+                    <h3 class="font-serif text-2xl font-medium mb-3 text-navy">French-to-English NMT</h3>
+                    <p class="text-navy/80 text-sm md:text-base leading-relaxed mb-6 h-24">
+                        Implemented and benchmarked Neural Machine Translation models, comparing a custom Transformer architecture against a Bi-LSTM with Bahdanau attention.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">Python</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">PyTorch</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">Transformers</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">NLP</span>
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="https://github.com/mirollawa2l" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-accent hover:text-navy transition-colors link-underline">GitHub Repository</a>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card group reveal bg-white rounded-2xl p-6 border border-borderLight shadow-sm hover:shadow-md transition-shadow" style="transition-delay: 0.1s;">
+                    <div class="w-full h-48 bg-[#e2e0db]/40 rounded-xl mb-6 overflow-hidden flex items-center justify-center relative">
+                        <span class="text-muted/50 font-medium text-sm tracking-wide">[ SMART IRRIGATION IMG ]</span>
+                    </div>
+                    <h3 class="font-serif text-2xl font-medium mb-3 text-navy">Smart Irrigation & Networking</h3>
+                    <p class="text-navy/80 text-sm md:text-base leading-relaxed mb-6 h-24">
+                        Engineered a Smart Irrigation classification app, and implemented reliable transport protocols including a custom ReliableUDP protocol with Stop-and-Wait ARQ.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">Python</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">Machine Learning</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">Networking</span>
+                        <span class="px-3 py-1 bg-warm border border-borderLight rounded-full text-xs font-medium text-muted">TCP/UDP</span>
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="https://github.com/mirollawa2l" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-accent hover:text-navy transition-colors link-underline">GitHub Repository</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center reveal">
+                <a href="https://github.com/mirollawa2l" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 font-serif italic text-xl text-accent hover:text-navy transition-colors">
+                    View more on GitHub 
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="journey" class="py-24 px-6 bg-white border-y border-borderLight overflow-hidden">
+        <div class="max-w-4xl mx-auto relative">
+            <div class="text-center mb-20 reveal relative">
+                <h2 class="font-serif text-4xl md:text-5xl mb-4 text-navy">How I got here</h2>
+                <p class="font-sans text-muted text-lg max-w-xl mx-auto">A story through the things I've learned, built, and the people I've learned from.</p>
+                
+                <div class="absolute -right-4 -top-8 md:right-10 md:-top-4 transform rotate-[15deg] font-hand text-2xl text-accent">
+                    things I've learned along the way
+                </div>
+            </div>
+
+            <div class="timeline-container relative py-8">
+                
+                <!-- Node 1 -->
+                <div class="timeline-node mb-16 flex flex-col md:flex-row md:justify-between items-start md:items-center w-full reveal pl-12 md:pl-0">
+                    <div class="timeline-dot"></div>
+                    <div class="md:w-5/12 text-left md:text-right mb-2 md:mb-0 pr-0 md:pr-8">
+                        <h4 class="font-serif text-xl font-medium text-navy">AU Robotics</h4>
+                        <span class="text-sm font-sans text-muted">Robotics / Hardware</span>
+                    </div>
+                    <div class="md:w-5/12 pl-0 md:pl-8 text-left text-navy/80 leading-relaxed font-sans text-sm md:text-base">
+                        <span class="font-medium text-accent">Theme:</span> Making things and learning that software doesn't exist in isolation.
+                    </div>
+                </div>
+
+                <!-- Node 2 -->
+                <div class="timeline-node mb-16 flex flex-col md:flex-row md:justify-between items-start md:items-center w-full reveal pl-12 md:pl-0">
+                    <div class="timeline-dot"></div>
+                    <div class="md:w-5/12 md:order-2 text-left mb-2 md:mb-0 pl-0 md:pl-8">
+                        <h4 class="font-serif text-xl font-medium text-navy">Engineering Center & Math TA</h4>
+                        <span class="text-sm font-sans text-muted">Teaching (2022 - 2025)</span>
+                    </div>
+                    <div class="md:w-5/12 md:order-1 pr-0 md:pr-8 text-left md:text-right text-navy/80 leading-relaxed font-sans text-sm md:text-base">
+                        <span class="font-medium text-accent">Theme:</span> Teaching taught me that understanding something deeply enough to explain it is different from simply knowing it.
+                    </div>
+                </div>
+
+                <!-- Node 3 -->
+                <div class="timeline-node mb-16 flex flex-col md:flex-row md:justify-between items-start md:items-center w-full reveal pl-12 md:pl-0">
+                    <div class="timeline-dot"></div>
+                    <div class="md:w-5/12 text-left md:text-right mb-2 md:mb-0 pr-0 md:pr-8">
+                        <h4 class="font-serif text-xl font-medium text-navy">Mind Cloud Traineeship</h4>
+                        <span class="text-sm font-sans text-muted">Software (2024 - 2025)</span>
+                    </div>
+                    <div class="md:w-5/12 pl-0 md:pl-8 text-left text-navy/80 leading-relaxed font-sans text-sm md:text-base">
+                        <span class="font-medium text-accent">Theme:</span> Moving from individual pieces of code toward building complete software systems.
+                    </div>
+                </div>
+
+                <!-- Node 4 -->
+                <div class="timeline-node mb-16 flex flex-col md:flex-row md:justify-between items-start md:items-center w-full reveal pl-12 md:pl-0">
+                    <div class="timeline-dot"></div>
+                    <div class="md:w-5/12 md:order-2 text-left mb-2 md:mb-0 pl-0 md:pl-8">
+                        <h4 class="font-serif text-xl font-medium text-navy">IEEE SSCS AI Engineering</h4>
+                        <span class="text-sm font-sans text-muted">AI (2026)</span>
+                    </div>
+                    <div class="md:w-5/12 md:order-1 pr-0 md:pr-8 text-left md:text-right text-navy/80 leading-relaxed font-sans text-sm md:text-base">
+                        <span class="font-medium text-accent">Theme:</span> Exploring machine learning, NLP, computer vision, and AI engineering.
+                    </div>
+                </div>
+
+                <!-- Node 5 -->
+                <div class="timeline-node flex flex-col md:flex-row md:justify-between items-start md:items-center w-full reveal pl-12 md:pl-0">
+                    <div class="timeline-dot"></div>
+                    <div class="md:w-5/12 text-left md:text-right mb-2 md:mb-0 pr-0 md:pr-8">
+                        <h4 class="font-serif text-xl font-medium text-navy">SMU & Scouts</h4>
+                        <span class="text-sm font-sans text-muted">Leadership / Community (2024+)</span>
+                    </div>
+                    <div class="md:w-5/12 pl-0 md:pl-8 text-left text-navy/80 leading-relaxed font-sans text-sm md:text-base">
+                        <span class="font-medium text-accent">Theme:</span> Learning how to work with people, lead, organize, communicate, and help others grow.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="beyond" class="py-24 px-6 bg-navy text-warm relative overflow-hidden">
+        <!-- Subtle decorative element -->
+        <div class="absolute -right-20 -bottom-20 w-64 h-64 border-[1px] border-warm/10 rounded-full"></div>
+        <div class="absolute -left-10 -top-10 w-32 h-32 border-[1px] border-warm/10 rounded-full"></div>
+        
+        <div class="max-w-3xl mx-auto text-center reveal">
+            <h2 class="font-serif text-3xl md:text-5xl mb-10 text-warm">Beyond the screen</h2>
+            
+            <p class="font-sans text-lg md:text-xl leading-relaxed text-warm/90 mb-12">
+                Some of my favorite experiences have had nothing to do with writing code. <span class="font-medium text-white underline decoration-accent decoration-2 underline-offset-4">Teaching students</span>, leading <span class="font-medium text-white underline decoration-accent decoration-2 underline-offset-4">Scouts</span>, <span class="font-medium text-white underline decoration-accent decoration-2 underline-offset-4">organizing people</span>, and watching someone understand something for the first time have taught me things that no programming language could.
+            </p>
+            
+            <div class="flex flex-wrap justify-center gap-4 opacity-80">
+                <span class="px-4 py-2 border border-warm/20 rounded-full text-sm font-medium">Teaching</span>
+                <span class="px-4 py-2 border border-warm/20 rounded-full text-sm font-medium">Leadership</span>
+                <span class="px-4 py-2 border border-warm/20 rounded-full text-sm font-medium">Helping others learn</span>
+                <span class="px-4 py-2 border border-warm/20 rounded-full text-sm font-medium">Community</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="py-32 px-6">
+        <div class="max-w-5xl mx-auto relative">
+            <div class="text-center mb-16 reveal relative">
+                <h2 class="font-serif text-3xl md:text-4xl mb-4 text-navy">What I work with</h2>
+                <div class="absolute -left-4 -top-6 md:left-10 md:-top-10 transform rotate-[-8deg] font-hand text-xl text-accent max-w-[200px] text-left hidden md:block">
+                    yes, I know a lot of things. no, I don't know everything.
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                <!-- Skill Category 1 -->
+                <div class="reveal">
+                    <h3 class="font-serif text-xl font-medium text-navy mb-6 border-b border-borderLight pb-2">AI / Machine Learning</h3>
+                    <ul class="space-y-3 font-sans text-navy/80 text-sm md:text-base">
+                        <li>Python</li>
+                        <li>PyTorch</li>
+                        <li>scikit-learn</li>
+                        <li>Transformers</li>
+                        <li>NLP</li>
+                        <li>Computer Vision</li>
+                        <li>LLMs</li>
+                    </ul>
+                </div>
+                
+                <!-- Skill Category 2 -->
+                <div class="reveal" style="transition-delay: 0.1s;">
+                    <h3 class="font-serif text-xl font-medium text-navy mb-6 border-b border-borderLight pb-2">Backend / Software</h3>
+                    <ul class="space-y-3 font-sans text-navy/80 text-sm md:text-base">
+                        <li>Java</li>
+                        <li>C/C++</li>
+                        <li>SQL & Databases</li>
+                        <li>OOP & SOLID</li>
+                        <li>Data Structures & Algorithms</li>
+                        <li>APIs</li>
+                        <li>Backend Development</li>
+                    </ul>
+                </div>
+
+                <!-- Skill Category 3 -->
+                <div class="reveal" style="transition-delay: 0.2s;">
+                    <h3 class="font-serif text-xl font-medium text-navy mb-6 border-b border-borderLight pb-2">Web</h3>
+                    <ul class="space-y-3 font-sans text-navy/80 text-sm md:text-base">
+                        <li>React & Next.js</li>
+                        <li>TypeScript</li>
+                        <li>HTML & CSS</li>
+                        <li>JavaScript</li>
+                    </ul>
+                </div>
+
+                <!-- Skill Category 4 -->
+                <div class="reveal" style="transition-delay: 0.3s;">
+                    <h3 class="font-serif text-xl font-medium text-navy mb-6 border-b border-borderLight pb-2">Engineering</h3>
+                    <ul class="space-y-3 font-sans text-navy/80 text-sm md:text-base">
+                        <li>Arduino & ESP</li>
+                        <li>Embedded Systems</li>
+                        <li>Robotics</li>
+                        <li>Linux & Bash</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-6 bg-white border-t border-borderLight text-center flex flex-col items-center justify-center min-h-[70vh]">
+        <div class="max-w-3xl mx-auto reveal">
+            <p class="font-hand text-2xl text-accent mb-6 transform -rotate-3">so... what's next?</p>
+            <h2 class="font-serif text-5xl md:text-7xl mb-12 text-navy leading-tight">
+                Still learning.<br>
+                Still building.<br>
+                <span class="italic text-accent">Still becoming.</span>
+            </h2>
+            <div class="space-y-6 font-sans text-lg md:text-xl text-navy/80 leading-relaxed max-w-2xl mx-auto">
+                <p>
+                    I don't want to build a career at the expense of building a life. I want to keep growing — professionally, personally, spiritually, and through the people around me.
+                </p>
+                <p class="font-medium text-navy">
+                    I hope that five years from now, I'm still learning, still building, still dreaming — but with a life that feels as meaningful as the career I built.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 px-6 bg-warm text-center border-t border-borderLight">
+        <div class="max-w-2xl mx-auto reveal">
+            <h2 class="font-serif text-4xl md:text-5xl mb-6 text-navy">Let's connect.</h2>
+            <p class="font-sans text-lg text-muted mb-12">
+                Whether it's an interesting problem, a project, an opportunity, or simply a conversation — I'd love to hear from you.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 font-sans font-medium text-navy">
+                <a href="mailto:es-meerolla.wael2027@alexu.edu.eg" class="hover:text-accent transition-colors link-underline pb-1 text-lg">Email Me</a>
+                <span class="hidden sm:inline text-borderLight">|</span>
+                <a href="https://github.com/mirollawa2l" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors link-underline pb-1 text-lg">GitHub</a>
+                <span class="hidden sm:inline text-borderLight">|</span>
+                <a href="https://www.linkedin.com/in/mirolla-wael-07b90320b/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors link-underline pb-1 text-lg">LinkedIn</a>
+                <span class="hidden sm:inline text-borderLight">|</span>
+                <a href="#cv-download-placeholder" class="hover:text-accent transition-colors link-underline pb-1 text-lg">Download CV</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 px-6 bg-white border-t border-borderLight text-center">
+        <div class="max-w-4xl mx-auto">
+            <p class="font-serif font-medium text-navy text-lg mb-2">Mirolla Wael</p>
+            <p class="font-sans text-sm text-muted mb-4">AI & Backend Engineer • Lifelong Learner</p>
+            <p class="font-serif italic text-accent mb-8">Learning. Building. Becoming.</p>
+            
+            <p class="font-sans text-xs text-muted/70">
+                &copy; 2026 Mirolla Wael. Crafted with intention.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#' || targetId.startsWith('#cv')) return;
+                
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if(mobileMenu.classList.contains('open')) {
+                        mobileMenu.classList.remove('open');
+                    }
+
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for scroll animations (Fade Up)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Sticky Navbar styling on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('border-borderLight');
+                navbar.classList.remove('border-transparent');
+                navbar.classList.add('shadow-sm');
+            } else {
+                navbar.classList.remove('border-borderLight');
+                navbar.classList.add('border-transparent');
+                navbar.classList.remove('shadow-sm');
+            }
+        });
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+
+        menuBtn.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('open');
+            if (isOpen) {
+                // X icon
+                menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+            } else {
+                // Hamburger icon
+                menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+            }
+        });
+    </script>
+</body>
+</html>
